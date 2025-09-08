@@ -111,6 +111,8 @@
       @enableRectangle="enableRectangle"
       @enableCircle="enableCircle"
       @enableLine="enableAddLine"
+      @enableTriangle="enableTriangle"
+      @enableStar="enableStar"
       @set_color="set_color"
     />
     <BrushToolBar
@@ -221,6 +223,16 @@ export default {
       this.pdf.setColor(this.color_pallet);
       this.pdf.setBorderColor(this.color_pallet);
       this.pdf.enableCircle();
+    },
+    enableTriangle() {
+      this.pdf.setColor(this.color_pallet);
+      this.pdf.setBorderColor(this.color_pallet);
+      this.pdf.enableTriangle();
+    },
+    enableStar() {
+      this.pdf.setColor(this.color_pallet);
+      this.pdf.setBorderColor(this.color_pallet);
+      this.pdf.enableStar();
     },
     enableText() {
       this.toolShow = "text";
