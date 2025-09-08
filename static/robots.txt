@@ -1,0 +1,6 @@
+# robots.txt file for PDFden
+
+User-agent: *
+Disallow: 
+
+Sitemap: https://www.pdfden.com/sitemap.xml

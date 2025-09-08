@@ -1,0 +1,56 @@
+.md-tooltip {
+  padding: 10px 15px !important;
+  min-width: 130px !important;
+  // max-width: 200px;
+  height: auto !important;
+  text-align: center !important;
+  border-radius: 10px !important;
+  background-color: #201f1f !important;
+  color: #fefefe !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  @include shadow-8dp();
+
+  &:after {
+    position: absolute !important;
+    bottom: -5px !important;
+    height: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 5px !important;
+    vertical-align: 0.255em !important;
+    content: "" !important;
+  }
+
+  &[x-placement="top"]:after {
+    border-top: 5px solid #201f1f !important;
+    border-right: 5px solid transparent !important;
+    border-bottom: 0 !important;
+    border-left: 5px solid transparent !important;
+  }
+  &[x-placement="bottom"]:after {
+    top: -5px !important;
+    border-top: 0 !important;
+    border-right: 5px solid transparent !important;
+    border-bottom: 5px solid #201f1f !important;
+    border-left: 5px solid transparent !important;
+  }
+  &[x-placement="left"]:after {
+    margin-right: 0 !important;
+    right: -5px !important;
+    top: 16px !important;
+    border-top: 5px solid transparent !important;
+    border-bottom: 5px solid transparent !important;
+    border-left: 5px solid #201f1f !important;
+  }
+  &[x-placement="right"]:after {
+    margin-left: 0 !important;
+    left: -5px !important;
+    top: 16px !important;
+    border-top: 5px solid transparent !important;
+    border-bottom: 5px solid transparent !important;
+    border-right: 5px solid #201f1f !important;
+  }
+}
