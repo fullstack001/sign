@@ -4,7 +4,6 @@
     <div v-else>
       <Nav />
       <nuxt />
-      <Footer />
     </div>
   </div>
 </template>
@@ -22,35 +21,9 @@ export default {
         ? this.$route.params.locale
         : "en";
     },
-    // metaTags() {
-    //   return [
-    //     {
-    //       property: "og:url",
-    //       content: window.location.href,
-    //     },
-    //     {
-    //       property: "og:site_name",
-    //       content: "pdfden - Online tools for PDF",
-    //     },
-    //     {
-    //       property: "og:type",
-    //       content: "website",
-    //     },
-    //     {
-    //       property: "og:locale",
-    //       content: this.locale,
-    //     },
-    //   ];
-    // },
   },
-  // metaInfo() {
-  //   return {
-  //     meta: this.metaTags,
-  //   };
-  // },
   components: {
     Nav,
-    Footer,
   },
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.handleBeforeUnload);
@@ -79,35 +52,6 @@ export default {
 
       return locale;
     },
-    // setMetaData() {
-    //   const metaInfo = {
-    //     title: "PDFden ",
-    //     titleTemplate: "%s | Online PDF Tools",
-    //     meta: [
-    //       // {
-    //       //   vmid: "description",
-    //       //   name: "description",
-    //       //   content: "Parent description.",
-    //       // },
-    //       {
-    //         property: "og:url",
-    //         content: window.location.href,
-    //       },
-    //       {
-    //         property: "og:site_name",
-    //         content: "pdfden",
-    //       },
-    //       {
-    //         property: locale,
-    //         content: this.$route.params.locale
-    //           ? this.$route.params.locale
-    //           : "en",
-    //       },
-    //     ],
-    //   };
-
-    //   return metaInfo;
-    // },
   },
 };
 </script>

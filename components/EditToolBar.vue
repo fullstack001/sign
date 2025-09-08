@@ -55,6 +55,14 @@
       </div>
     </div>
     <div class="tool">
+      <div class="modern-tool-item" :class="{ active: toolShow == 'highlight' }" @click="enableHighlight">
+        <div class="modern-tool-icon">
+          <i class="fa-solid fa-highlighter"></i>
+        </div>
+        <div class="modern-tool-label">Highlight</div>
+      </div>
+    </div>
+    <div class="tool">
       <div class="modern-tool-item" @click="$emit('deleteSelectedObject')">
         <div class="modern-tool-icon">
           <i class="fa fa-trash"></i>
@@ -110,6 +118,11 @@
       @set_color="set_color"
       @set_brushSize="(data) => $emit('set_brushSize', data)"
     />
+    <HighlightToolBar
+      v-show="toolShow == 'highlight'"
+      @set_highlight_color="set_highlight_color"
+      @set_highlight_opacity="set_highlight_opacity"
+    />
   </div>
 </template>
 <script>
@@ -117,6 +130,7 @@ import EditTextToolBar from "./EditTextToolBar.vue";
 import TextToolBar from "./TextToolBar.vue";
 import ShapeToolBar from "./ShapeToolBar.vue";
 import BrushToolBar from "./BrushToolBar.vue";
+import HighlightToolBar from "./HighlightToolBar.vue";
 import $ from "jquery";
 export default {
   components: {
@@ -124,6 +138,7 @@ export default {
     TextToolBar,
     ShapeToolBar,
     BrushToolBar,
+    HighlightToolBar,
   },
   props: [
     "pages",
@@ -148,6 +163,8 @@ export default {
       activeObject: null,
       firsted: false,
       showThumbnails: false,
+      highlightColor: "#ffff00",
+      highlightOpacity: 0.3,
     };
   },
   watch: {
@@ -209,6 +226,10 @@ export default {
       this.toolShow = "text";
       this.pdf.enableAddText();
       this.pdf.defaultFontStyle();
+    },
+    enableHighlight() {
+      this.toolShow = "highlight";
+      this.pdf.enableHighlight();
     },
     set_font_size(data) {
       this.fontSize = data;
@@ -299,6 +320,14 @@ export default {
       }
       // this.pdf.fabricObjects[this.pdf.active_canvas].renderAll();
       // $(".tool-button").first().find("i").click();
+    },
+    set_highlight_color(data) {
+      this.highlightColor = data;
+      this.pdf.setHighlightColor(data);
+    },
+    set_highlight_opacity(data) {
+      this.highlightOpacity = data;
+      this.pdf.setHighlightOpacity(data);
     },
   },
 };
