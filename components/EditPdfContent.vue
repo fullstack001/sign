@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-container">
+  <div class="edit-container" :class="{ 'show-thumbnails': showThumbnails }">
     <div class="main-edit" :style="rendering ? 'background-color:#fefefe' : ''">
       <RendingProgressVue
         :page="pageNumProps"
@@ -11,17 +11,21 @@
         :currentPageProps="currentPage"
         :show_tools="show_tools"
         :activeObjectProps="activeObject"
+        :isRendering="rendering"
+        :showThumbnails="showThumbnails"
         @set_page="set_page"
         @enablePencil="pdf.enablePencil()"
         @enableSelector="pdf.enableSelector()"
         @set_brushSize="(data) => pdf.setBrushSize(data)"
         @deleteSelectedObject="pdf.deleteSelectedObject()"
         @addImage="pdf.addImageToCanvas()"
+        @editPdf="edit_pdf"
+        @toggleThumbnails="toggleThumbnails"
         v-if="!rendering"
         :pdf="pdf"
       />
       <div class="edit-content" v-if="imageItems" v-show="!rendering">
-        <div id="pdf-preview-list" ref="list_scrollContainer">
+        <div id="pdf-preview-list" ref="list_scrollContainer" v-show="showThumbnails">
           <div
             v-for="(imageItem, index) in imageItems"
             :key="index"
@@ -59,25 +63,6 @@
         </div>
       </div>
     </div>
-    <div class="edit_tool_sidebar">
-      <div class="edit-title">
-        <div class="text-center sidebar_title">
-          {{ $t("page_titles.edit_page.editPdf") }}
-        </div>
-      </div>
-
-      <div class="edit-description">
-        <div class="edit-desc-detail">
-          {{ $t("page_titles.edit_page.ele_des") }}
-        </div>
-      </div>
-
-      <div class="option__panel option__panel--active" id="merge-options">
-        <button class="edit-btn" @click="edit_pdf" :disabled="rendering">
-          {{ $t("page_titles.edit_page.actionBtn") }}
-        </button>
-      </div>
-    </div>
     <div id="temp_canvas" style="display: none"></div>
   </div>
 </template>
@@ -109,6 +94,7 @@ export default {
       color: "#000",
       show_tools: false,
       activeObject: null,
+      showThumbnails: false,
     };
   },
   created() {
@@ -242,6 +228,9 @@ export default {
         }
       }
     },
+    toggleThumbnails() {
+      this.showThumbnails = !this.showThumbnails;
+    },
   },
 };
 </script>
@@ -275,13 +264,15 @@ export default {
 }
 .edit-container {
   display: flex;
+  flex-direction: column;
 }
 .edit-desc-detail {
   margin: 20px 10px 21px 10px;
   font-size: 15px;
 }
 .main-edit {
-  width: 79%;
+  width: 100%;
+  flex: 1;
 }
 .edit-content {
   display: flex;
@@ -297,51 +288,41 @@ export default {
   height: 83.5vh;
 }
 
+/* Hide left sidebar on mobile by default */
+@media (max-width: 768px) {
+  #pdf-preview-list {
+    display: none;
+  }
+  
+  #pdf-edit-list {
+    width: 100%;
+  }
+}
+
+/* Show left sidebar when thumbnails are toggled on mobile */
+@media (max-width: 768px) {
+  .show-thumbnails #pdf-preview-list {
+    display: grid;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100vh;
+    width: 200px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .show-thumbnails #pdf-edit-list {
+    margin-left: 200px;
+  }
+}
+
 #pdf-edit-list {
   min-height: 83.5vh;
   max-height: 83.5vh;
   width: 100%;
   overflow-y: auto;
   padding-top: 50px;
-}
-.edit_tool_sidebar {
-  min-width: 21%;
-  max-width: 21%;
-  height: 89vh;
-  background-color: #fff;
-  border-left: solid 1px rgba(0, 0, 0, 0.4);
-}
-.description {
-  padding: 15px;
-}
-.edit-description {
-  margin: 10px;
-  background: #def2ff;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 13px;
-}
-
-.edit-btn {
-  font-size: 24px;
-  line-height: 26px;
-  min-height: 48px;
-  padding: 8px 12px;
-  color: #fff;
-  background-color: #0000ff;
-  padding: 15px 40px;
-  border-radius: 10px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  margin-left: 100px;
-  margin-top: 100px;
-}
-.sidebar_title {
-  font-weight: 600;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #ccc;
-  padding: 20px 0 10px 0;
-  font-size: 26px;
 }
 </style>

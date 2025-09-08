@@ -1,87 +1,79 @@
 <template>
-  <div class="toolbar">
-    <div class="stepper">
-      <div class="arrow">
-        <i
-          class="fa-solid fa-chevron-up"
-          style="font-size: medium"
-          @click="$emit('set_page', currentPage == 1 ? 1 : currentPage - 1)"
-        ></i>
-      </div>
-      <div class="arrow">
-        <i
-          class="fa-solid fa-chevron-down"
-          style="font-size: medium"
-          @click="
-            () => {
-              let newPage =
-                currentPage == pages ? currentPage : currentPage + 1;
-              $emit('set_page', newPage);
-            }
-          "
-        ></i>
-      </div>
-      <div class="info">
-        <input
-          type="number"
-          :max="pages"
-          :min="1"
-          style="width: 40px; height: 24px; margin-right: 3px"
-          v-model="currentPage"
-          @change="() => $emit('set_page', currentPage * 1)"
-        />
-        / {{ pages }}
+  <div class="toolbar-container">
+    <div class="toolbar">
+   
+
+    <!-- Thumbnails Tool -->
+    <div class="tool">
+      <div class="modern-tool-item" :class="{ active: showThumbnails }" @click="toggleThumbnails">
+        <div class="modern-tool-icon">
+          <i class="fa-solid fa-th-large"></i>
+        </div>
+        <div class="modern-tool-label">Thumbnails</div>
       </div>
     </div>
 
+    <!-- Main Tools with Modern Design -->
     <div class="tool">
-      <button
-        class="tool-button"
-        :class="{ active: toolShow == 'hand' }"
-        @click="enableSelector"
-      >
-        <i class="fa-regular fa-hand" title="Free Hand" id="free_hand"></i>
-      </button>
+      <div class="modern-tool-item" :class="{ active: toolShow == 'hand' }" @click="enableSelector">
+        <div class="modern-tool-icon">
+          <i class="fa-regular fa-hand"></i>
+        </div>
+        <div class="modern-tool-label">Select</div>
+      </div>
     </div>
     <div class="tool">
-      <button
-        class="tool-button"
-        @click="enablePencil"
-        :class="{ active: toolShow == 'brush' }"
-      >
-        <i class="fa fa-pencil" title="Pencil"></i>
-      </button>
+      <div class="modern-tool-item" :class="{ active: toolShow == 'brush' }" @click="enablePencil">
+        <div class="modern-tool-icon">
+          <i class="fa fa-pencil"></i>
+        </div>
+        <div class="modern-tool-label">Draw</div>
+      </div>
     </div>
     <div class="tool">
-      <button
-        class="tool-button"
-        @click="enableText"
-        :class="{ active: toolShow == 'text' }"
-      >
-        <i class="fa fa-font" title="Add Text"></i>
-      </button>
+      <div class="modern-tool-item" :class="{ active: toolShow == 'text' }" @click="enableText">
+        <div class="modern-tool-icon">
+          <i class="fa fa-font"></i>
+        </div>
+        <div class="modern-tool-label">Text</div>
+      </div>
     </div>
     <div class="tool">
-      <button
-        class="tool-button"
-        @click="toolShow = 'shape'"
-        :class="{ active: toolShow == 'shape' }"
-      >
-        <i class="fa-solid fa-shapes"></i>
-      </button>
+      <div class="modern-tool-item" :class="{ active: toolShow == 'shape' }" @click="toolShow = 'shape'">
+        <div class="modern-tool-icon">
+          <i class="fa-solid fa-shapes"></i>
+        </div>
+        <div class="modern-tool-label">Shapes</div>
+      </div>
     </div>
     <div class="tool">
-      <button class="tool-button" @click="$emit('addImage')">
-        <i class="fa-regular fa-image" title="Add an Image"></i>
-      </button>
+      <div class="modern-tool-item" @click="$emit('addImage')">
+        <div class="modern-tool-icon">
+          <i class="fa-regular fa-image"></i>
+        </div>
+        <div class="modern-tool-label">Image</div>
+      </div>
+    </div>
+    <div class="tool">
+      <div class="modern-tool-item" @click="$emit('deleteSelectedObject')">
+        <div class="modern-tool-icon">
+          <i class="fa fa-trash"></i>
+        </div>
+        <div class="modern-tool-label">Delete</div>
+      </div>
     </div>
 
-    <div class="tool active">
-      <button class="tool-button" @click="$emit('deleteSelectedObject')">
-        <i class="fa fa-trash"></i>
-      </button>
+    <!-- Edit PDF Button -->
+    <div class="tool edit-pdf-tool">
+      <div class="modern-tool-item edit-pdf-item" @click="$emit('editPdf')" :class="{ disabled: isRendering }">
+        <div class="modern-tool-icon">
+          <i class="fa fa-download"></i>
+        </div>
+        <div class="modern-tool-label">Edit PDF</div>
+      </div>
     </div>
-    <TextToolBar
+  </div>
+  <TextToolBar
       v-if="toolShow == 'text'"
       @set_font_family="set_font_family"
       @set_font_size="set_font_size"
@@ -139,6 +131,7 @@ export default {
     "show_tools",
     "pdf",
     "activeObjectProps",
+    "isRendering",
   ],
   data() {
     return {
@@ -154,6 +147,7 @@ export default {
       color_pallet: "#000",
       activeObject: null,
       firsted: false,
+      showThumbnails: false,
     };
   },
   watch: {
@@ -167,6 +161,12 @@ export default {
     },
   },
   methods: {
+    // Thumbnails functionality
+    toggleThumbnails() {
+      this.showThumbnails = !this.showThumbnails;
+      this.$emit("toggleThumbnails", this.showThumbnails);
+    },
+
     enablePencil() {
       this.toolShow = "brush";
       this.$emit("enablePencil");
@@ -305,4 +305,333 @@ export default {
 </script>
 <style scoped>
 @import "@/assets/css/toolbar.css";
+
+/* Toolbar Container */
+.toolbar-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Main Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 60px;
+  flex-wrap: wrap;
+}
+
+/* Modern Tool Design */
+.modern-tool-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: 8px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background-color: transparent;
+}
+
+.modern-tool-item:hover {
+  background-color: #e8e8e8;
+}
+
+.modern-tool-item.active {
+  background-color: #d0d0ff;
+  color: #0000ff;
+}
+
+.modern-tool-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  color: #47474f;
+  margin-bottom: 4px;
+}
+
+.modern-tool-item.active .modern-tool-icon {
+  color: #0000ff;
+}
+
+.modern-tool-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #47474f;
+  text-align: center;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.modern-tool-item.active .modern-tool-label {
+  color: #0000ff;
+}
+
+/* Special styling for thumbnails tool */
+.tool:first-of-type .modern-tool-item {
+  background-color: #e8e8ff;
+  border: 2px solid #d0d0ff;
+}
+
+.tool:first-of-type .modern-tool-item.active {
+  background-color: #d0d0ff;
+  border-color: #a0a0ff;
+}
+
+/* Special styling for edit PDF button */
+.edit-pdf-tool .edit-pdf-item {
+  background-color: #0000ff;
+  color: white;
+  border: 2px solid #0000ff;
+}
+
+.edit-pdf-tool .edit-pdf-item:hover {
+  background-color: #0000cc;
+  border-color: #0000cc;
+}
+
+.edit-pdf-tool .edit-pdf-item.disabled {
+  background-color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.edit-pdf-tool .edit-pdf-item .modern-tool-icon,
+.edit-pdf-tool .edit-pdf-item .modern-tool-label {
+  color: white;
+}
+
+.edit-pdf-tool .edit-pdf-item.disabled .modern-tool-icon,
+.edit-pdf-tool .edit-pdf-item.disabled .modern-tool-label {
+  color: #666;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1024px) {
+  .toolbar {
+    gap: 15px;
+    padding: 8px 15px;
+    min-height: 55px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+  }
+  
+  .modern-tool-item {
+    min-width: 55px;
+    padding: 8px 4px;
+    flex-shrink: 0;
+  }
+  
+  .modern-tool-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+  }
+  
+  .modern-tool-label {
+    font-size: 11px;
+  }
+  
+  .text-toolbar,
+  .edit-text-toolbar,
+  .brush-toolbar,
+  .shape-toolbar {
+    padding: 12px 18px;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    gap: 10px;
+    padding: 6px 12px;
+    min-height: 50px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .modern-tool-item {
+    min-width: 50px;
+    padding: 6px 3px;
+    flex-shrink: 0;
+  }
+  
+  .modern-tool-icon {
+    width: 22px;
+    height: 22px;
+    font-size: 15px;
+  }
+  
+  .modern-tool-label {
+    font-size: 10px;
+  }
+  
+  .text-toolbar,
+  .edit-text-toolbar,
+  .brush-toolbar,
+  .shape-toolbar {
+    padding: 10px 15px;
+    gap: 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) {
+  .toolbar {
+    gap: 8px;
+    padding: 4px 8px;
+    min-height: 45px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .modern-tool-item {
+    min-width: 45px;
+    padding: 4px 2px;
+    flex-shrink: 0;
+    touch-action: manipulation;
+  }
+  
+  .modern-tool-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+  }
+  
+  .modern-tool-label {
+    font-size: 9px;
+  }
+  
+  .text-toolbar,
+  .edit-text-toolbar,
+  .brush-toolbar,
+  .shape-toolbar {
+    padding: 8px 12px;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Hide labels on very small screens to save space */
+  .modern-tool-label {
+    display: none;
+  }
+  
+  .modern-tool-item {
+    min-width: 40px;
+    padding: 6px 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    gap: 6px;
+    padding: 3px 6px;
+    min-height: 40px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .modern-tool-item {
+    min-width: 38px;
+    padding: 4px 2px;
+    flex-shrink: 0;
+    touch-action: manipulation;
+  }
+  
+  .modern-tool-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 13px;
+  }
+  
+  .modern-tool-label {
+    display: none;
+  }
+  
+  .text-toolbar,
+  .edit-text-toolbar,
+  .brush-toolbar,
+  .shape-toolbar {
+    padding: 6px 10px;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Ultra-small screens */
+@media (max-width: 360px) {
+  .toolbar {
+    gap: 4px;
+    padding: 2px 4px;
+    min-height: 36px;
+  }
+  
+  .modern-tool-item {
+    min-width: 36px;
+    padding: 3px 1px;
+  }
+  
+  .modern-tool-icon {
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+  }
+  
+  .text-toolbar,
+  .edit-text-toolbar,
+  .brush-toolbar,
+  .shape-toolbar {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+}
+
+/* Ensure sub-toolbars appear under the main toolbar */
+.text-toolbar,
+.edit-text-toolbar,
+.brush-toolbar,
+.shape-toolbar {
+  position: relative !important;
+  top: auto !important;
+  padding-left: 0 !important;
+  margin-top: 10px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+  background-color: #f8f9fa;
+  border-radius: 0 0 8px 8px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 15px 20px;
+}
 </style>

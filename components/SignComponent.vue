@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-container">
+  <div class="sign-container" :class="{ 'show-thumbnails': showThumbnails }">
     <div class="sign-edit" :style="rendering ? 'background-color:#fefefe' : ''">
       <RendingProgressVue
         :page="totalPageNum"
@@ -10,10 +10,11 @@
         :pages="pages"
         :currentPageProps="currentPage"
         @set_page="set_page"
+        @toggleThumbnails="toggleThumbnails"
         v-if="!rendering"
       />
       <div class="sign-content" v-if="imageItems" v-show="!rendering">
-        <div id="pdf-preview-list" ref="list_scrollContainer">
+        <div id="pdf-preview-list" ref="list_scrollContainer" v-show="showThumbnails">
           <div
             v-for="(imageItem, index) in imageItems"
             :key="index"
@@ -375,6 +376,7 @@ export default {
       date_num: 0,
       text_num: 0,
       stamp_num: 0,
+      showThumbnails: false,
     };
   },
   methods: {
@@ -531,6 +533,9 @@ export default {
         img: [this.sign_obj.name, this.date_img, this.text_img],
       };
       this.$emit("upload", [images, matched]);
+    },
+    toggleThumbnails() {
+      this.showThumbnails = !this.showThumbnails;
     },
   },
 };
@@ -717,6 +722,36 @@ img {
 @media (max-width: 1492px) {
   #pdf-preview-list {
     display: none;
+  }
+}
+
+/* Hide left sidebar on mobile by default */
+@media (max-width: 768px) {
+  #pdf-preview-list {
+    display: none;
+  }
+  
+  #pdf-edit-list {
+    width: 100%;
+  }
+}
+
+/* Show left sidebar when thumbnails are toggled on mobile */
+@media (max-width: 768px) {
+  .show-thumbnails #pdf-preview-list {
+    display: grid;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100vh;
+    width: 200px;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .show-thumbnails #pdf-edit-list {
+    margin-left: 200px;
   }
 }
 </style>

@@ -168,17 +168,8 @@ export default {
 
   methods: {
     handleResize() {
-      if (window.innerWidth <= 640) {
-        this.$swal(
-          "Warning!",
-          "This feature is not available in this region.  Please use a device with a resolution of 920px or higher.",
-          "warning"
-        );
-        this.$nextTick().then(() => {
-          // Now, the DOM has been updated, and you can safely execute the next statement
-          this.$router.push("/");
-        });
-      }
+      // Mobile responsive design - no redirect needed
+      // The page will now work on all screen sizes
     },
     set_sign_items(data) {
       this.modalValidate = false;
@@ -380,6 +371,100 @@ h3 {
 .md-radio-label {
   font-weight: 500 !important;
 }
+/* Responsive Design for Mobile */
+@media (max-width: 1024px) {
+  .main {
+    padding: 10px;
+  }
+  
+  .option__panel__title {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
+  
+  .option__panel__content {
+    margin: 8px;
+    padding: 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 5px;
+  }
+  
+  .option__panel__title {
+    font-size: 18px;
+    padding: 10px 25px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  .option__panel__content {
+    margin: 5px;
+    padding: 6px;
+    font-size: 11px;
+  }
+  
+  .tool__sidebar {
+    min-width: 250px;
+  }
+}
+
 @media (max-width: 640px) {
+  .main {
+    padding: 5px;
+    width: 100%;
+  }
+  
+  .option__panel__title {
+    font-size: 16px;
+    padding: 8px 20px;
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .option__panel__content {
+    margin: 3px;
+    padding: 5px;
+    font-size: 10px;
+  }
+  
+  .tool__sidebar {
+    min-width: 200px;
+    height: auto;
+  }
+  
+  .tool__sidebar__inactive {
+    min-width: 200px;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 2px;
+  }
+  
+  .option__panel__title {
+    font-size: 14px;
+    padding: 6px 15px;
+  }
+  
+  .option__panel__content {
+    margin: 2px;
+    padding: 4px;
+    font-size: 9px;
+  }
+  
+  .tool__sidebar {
+    min-width: 150px;
+  }
+  
+  .tool__sidebar__inactive {
+    min-width: 150px;
+    padding: 3px;
+  }
 }
 </style>

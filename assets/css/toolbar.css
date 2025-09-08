@@ -1,7 +1,7 @@
 .toolbar {
   width: 100%;
   background-color: #f5f5fa;
-  height: 50px;
+  height: 85px;
   top: 0;
   left: 0;
   z-index: 10;
@@ -88,4 +88,16 @@ button:focus {
   /* background-color: rgb(82, 86, 89); */
   /* border-color: rgb(82, 86, 89); */
   color: red !important;
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    height: 65px;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    height: 56px;
+  }
 }

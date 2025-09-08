@@ -154,17 +154,8 @@ export default {
   },
   methods: {
     handleResize() {
-      if (window.innerWidth <= 640) {
-        this.$swal(
-          "Warning!",
-          "This feature is not available in this region.  Please use a device with a resolution of 920px or higher.",
-          "warning"
-        );
-        this.$nextTick().then(() => {
-          // Now, the DOM has been updated, and you can safely execute the next statement
-          this.$router.push("/");
-        });
-      }
+      // Mobile responsive design - no redirect needed
+      // The page will now work on all screen sizes
     },
     async handleFiles(files) {
       if (files.length > 1) {
@@ -311,17 +302,105 @@ export default {
   border-bottom: 1px solid #ccc !important;
 }
 
+/* Responsive Design for Mobile */
+@media (max-width: 1024px) {
+  .main {
+    padding: 10px;
+  }
+  
+  .edit-desc-title {
+    font-size: 20px;
+    margin-left: 15px;
+  }
+  
+  .edit-desc-detail {
+    margin: 15px;
+    padding: 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 5px;
+  }
+  
+  .edit-desc-title {
+    font-size: 18px;
+    margin-left: 10px;
+  }
+  
+  .edit-desc-detail {
+    margin: 10px;
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .edit-btn {
+    margin-left: 0;
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 18px;
+  }
+}
+
 @media (max-width: 640px) {
-  .drop-area {
+  .main {
+    padding: 5px;
     width: 100%;
   }
-
-  .uploader__btn {
-    min-width: auto;
+  
+  .edit-desc-title {
+    font-size: 16px;
+    margin-left: 5px;
+    text-align: center;
   }
+  
+  .edit-desc-detail {
+    margin: 5px;
+    padding: 10px;
+    font-size: 12px;
+  }
+  
+  .edit-btn {
+    margin-left: 0;
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+  }
+  
+  .upload_btn .md-button-content {
+    font-size: 18px;
+    padding: 0 20px;
+  }
+}
 
-  .page-title {
-    font-size: 26px !important;
+@media (max-width: 480px) {
+  .main {
+    padding: 2px;
+  }
+  
+  .edit-desc-title {
+    font-size: 14px;
+    margin-left: 2px;
+  }
+  
+  .edit-desc-detail {
+    margin: 2px;
+    padding: 8px;
+    font-size: 11px;
+  }
+  
+  .edit-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .upload_btn .md-button-content {
+    font-size: 16px;
+    padding: 0 15px;
   }
 }
 </style>

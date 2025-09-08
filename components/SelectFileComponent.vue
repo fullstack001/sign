@@ -207,4 +207,70 @@ body {
     margin-top: 0 !important;
   }
 }
+
+/* Additional Mobile Responsive Styles */
+@media (max-width: 640px) {
+  .page-title {
+    font-size: 20px !important;
+    margin-top: 10px;
+  }
+  
+  .page-description {
+    font-size: 14px !important;
+    line-height: 1.4;
+    margin: 10px auto 0;
+  }
+  
+  .drop-area {
+    width: 95%;
+    padding: 30px 10px;
+    margin: 15px auto 0;
+  }
+  
+  .drop-img {
+    width: 50px;
+    margin-bottom: 20px;
+  }
+  
+  .uploader__btn {
+    padding: 15px 30px;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .upload_btn {
+    padding-left: 0;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cloud-upload {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 18px !important;
+  }
+  
+  .page-description {
+    font-size: 12px !important;
+  }
+  
+  .drop-area {
+    padding: 20px 5px;
+  }
+  
+  .drop-img {
+    width: 40px;
+    margin-bottom: 15px;
+  }
+  
+  .uploader__btn {
+    padding: 12px 25px;
+    font-size: 16px;
+  }
+}
 </style>
