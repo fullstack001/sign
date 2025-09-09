@@ -3,7 +3,7 @@
     <button class="md-icon-button gdrive_btn" @click="open_add_local()">
       <i class="fa fa-laptop" style="font-size: 16px !important"></i>
       <md-tooltip md-direction="right">
-        {{ $t("toolTip.upload_local") }}
+        Upload from Computer
       </md-tooltip>
     </button>
   </div>

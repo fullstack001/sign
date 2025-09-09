@@ -1,5 +1,5 @@
 <template>
-  <LocalizedLink :to="item.item.name">
+  <nuxt-link :to="item.item.name">
     <md-content class="feature_item">
       <div class="item-header">
         <img
@@ -14,14 +14,12 @@
         {{ item.item.description }}
       </p>
     </md-content>
-  </LocalizedLink>
+  </nuxt-link>
 </template>
 
 <script>
-import LocalizedLink from "./LocalizedLink.vue";
 export default {
   components: {
-    LocalizedLink,
   },
   name: "feature-title",
   props: {

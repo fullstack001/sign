@@ -14,7 +14,7 @@
           </div>
           <div class="upload_btn">
             <div class="uploader__btn md-raised" @click="open_add_local">
-              {{buttonText|| $t("page_titles.merge_page.selectBtn") }}
+              {{buttonText|| "Select PDF Files" }}
             </div>
             <div class="cloud-upload">
               <GDriveSelector
@@ -35,7 +35,7 @@
             </div>
           </div>
           <div>
-            {{dragText|| $t("page_titles.merge_page.dropFiles") }}
+            {{dragText|| "Or Drop PDFs Here" }}
           </div>
         </div>
       </div>

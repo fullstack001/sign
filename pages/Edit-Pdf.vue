@@ -34,8 +34,8 @@
         @onPickedDropbox="onPickedDropbox"
         @onPickedGoogleDriver="onPickedGoogleDriver"
         @handleFile="handleFiles"
-        :title="$t('page_titles.edit_page.title')"
-        :description="$t('page_titles.edit_page.description')"
+        :title="'Edit PDF file'"
+        :description="'Add text, shapes, images, and freehand annotations to your PDF using the easiest PDF editor.'"
         :featureImgUrl="svgUrl"
       />
     </div>

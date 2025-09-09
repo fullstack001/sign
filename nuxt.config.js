@@ -1,5 +1,4 @@
 import colors from "vuetify/es5/util/colors";
-import { I18N } from "./config";
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -65,17 +64,15 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    ["nuxt-i18n", I18N],
     "@nuxtjs/axios",
     "nuxt-sweetalert2",
     "@nuxtjs/google-gtag",
-    
   ],
 
-   "google-gtag": {
+  "google-gtag": {
     id: "G-XDB3D6VRLS", // Replace with your Google Analytics ID
     debug: true, // Enables debug mode
-    pageTrackerScreenviewEnabled: true // Enables tracking of page views
+    pageTrackerScreenviewEnabled: true, // Enables tracking of page views
   },
 
   axios: {

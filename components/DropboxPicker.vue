@@ -12,10 +12,10 @@
         <i class="fa-brands fa-dropbox" style="font-size: 16px !important"></i>
       </div>
       <md-tooltip md-direction="right" v-show="buttonType == 'chooser'">
-        {{ $t("toolTip.sel_dropBox") }}
+        Select PDF from Dropbox
       </md-tooltip>
       <md-tooltip md-direction="bottom" v-show="buttonType == 'saver'">
-        {{ $t("toolTip.save_dropBox") }}
+        Save to Dropbox
       </md-tooltip>
     </div>
   </div>

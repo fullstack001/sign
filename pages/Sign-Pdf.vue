@@ -36,8 +36,8 @@
       @onPickedDropbox="onPickedDropbox"
       @onPickedGoogleDriver="onPickedGoogleDriver"
       @handleFile="handleFiles"
-      :title="$t('page_titles.sign_page.title')"
-      :description="$t('page_titles.sign_page.description')"
+      :title="'Sign PDF file'"
+      :description="'Sign your PDF securely by creating your signature.'"
       :featureImgUrl="svgUrl"
     />
 

@@ -2,15 +2,12 @@
   <div>
     <div v-if="isLoading"></div>
     <div v-else>
-      <Nav />
       <nuxt />
     </div>
   </div>
 </template>
 
 <script>
-import Nav from "@/components/layout/Nav.vue";
-import Footer from "@/components/layout/Footer.vue";
 import EventBus from "@/config/EventBus";
 
 export default {
@@ -23,7 +20,6 @@ export default {
     },
   },
   components: {
-    Nav,
   },
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.handleBeforeUnload);

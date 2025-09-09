@@ -9,7 +9,7 @@
             class="form-item name-input"
             :class="{ errorInput: $v.name.$error }"
           >
-            <label>{{ $t("page_titles.sign_page.fullName") }}</label>
+            <label>Full Name: </label>
             <input
               v-model="name"
               :class="{ error: $v.name.$error }"
@@ -21,7 +21,7 @@
           </div>
           <!-- Email -->
           <div class="form-item">
-            <label>{{ $t("page_titles.sign_page.initials") }}</label>
+            <label>Initials: </label>
             <input v-model="init_name" placeholder="Your initials" />
           </div>
         </div>
@@ -40,7 +40,7 @@
           />
           <label for="tab-1" class="tab-label">
             <i class="fa-solid fa-pencil"></i>
-            {{ $t("page_titles.sign_page.signature") }}
+            Signature
           </label>
           <div class="tab-content">
             <SinatureTabComponent
@@ -54,7 +54,7 @@
           <input type="radio" name="css-tabs" id="tab-2" class="tab-switch" />
           <label for="tab-2" class="tab-label">
             <i class="fa-solid fa-spell-check"></i>
-            {{ $t("page_titles.sign_page.initial") }}
+            Initial
           </label>
           <div class="tab-content">
             <InitTabComponent
@@ -68,7 +68,7 @@
           <input type="radio" name="css-tabs" id="tab-3" class="tab-switch" />
           <label for="tab-3" class="tab-label">
             <i class="fa-solid fa-stamp"></i>
-            {{ $t("page_titles.sign_page.stamp") }}
+            Company Stamp
           </label>
           <div class="tab-content">
             <StampDropFile

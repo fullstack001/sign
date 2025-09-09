@@ -54,7 +54,7 @@
     </div>
     <div class="sign_sidebar">
       <div class="sidebar_title" style="padding-bottom: 15px">
-        {{ $t("page_titles.sign_page.sign_options") }}
+        Signing options
       </div>
       <div class="furniture">
         <div class="sign-label mt-4 mb-3">Required fields</div>
@@ -141,7 +141,7 @@
               v-bind:style="
                 show_img == 'name' ? 'display: none;' : 'display: block; '
               "
-              >{{ $t("page_titles.sign_page.name") }}</span
+              >Name</span
             >
           </div>
           <div class="sign_draggable_actions">
@@ -174,7 +174,7 @@
               v-bind:style="
                 show_img == 'date' ? 'display: none;' : 'display: block; '
               "
-              >{{ $t("page_titles.sign_page.date") }}</span
+              >Date</span
             >
           </div>
           <div class="sign_draggable_actions">
@@ -206,7 +206,7 @@
               v-bind:style="
                 show_img == 'text' ? 'display: none;' : 'display: block; '
               "
-              >{{ $t("page_titles.sign_page.text") }}</span
+              >Text</span
             >
           </div>
           <div class="sign_draggable_actions">
@@ -263,7 +263,7 @@
         </div>
       </div>
       <button class="sign_btn" @click="sign_pdf" :disabled="rendering">
-        {{ $t("page_titles.sign_page.actionBtn") }}
+        Sign PDF
       </button>
     </div>
     <DateFormatModal v-if="dateModalValidate" @close="set_date_format" />

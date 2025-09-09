@@ -3,10 +3,10 @@
     <div class="md-icon-button gdrive_btn" @click="driveIconClicked()">
       <i class="fab fa-google-drive" style="font-size: 16px !important"></i>
       <md-tooltip md-direction="right" v-show="buttonStyle == 'download'">
-        {{ $t("toolTip.sel_google") }}
+        Select PDF from Google Drive
       </md-tooltip>
       <md-tooltip md-direction="top" v-show="buttonStyle == 'upload'">{{
-        $t("toolTip.save_google")
+        "Save to Google Drive"
       }}</md-tooltip>
     </div>
   </div>
