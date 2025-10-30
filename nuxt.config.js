@@ -48,9 +48,9 @@ export default {
       // { name: 'description', content: 'PDFden.com - Free Online PDF Tools - Merge, Split, Compress, and More!' }
     ],
     link: [
-      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon.io" },
-      { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon.io" },
-      { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon.io" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon.ico" },
+      { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon.ico" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon.ico" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Satisfy&family=Shadows+Into+Light&family=Alex+Brush&family=Allura&family=Handlee&family=Kristi&family=La+Belle+Aurore&family=Marck+Script&family=Reenie+Beanie&family=Zeyada&display=swap",
