@@ -154,7 +154,7 @@
       </div>
 
       <div id="upload" class="tabcontent">
-        <DropFile
+        <StampDropFile
           v-if="active_btn == 'upload'"
           :data="'sign_img'"
           @set_stamp="set_stamp"
@@ -165,12 +165,12 @@
 </template>
 <script>
 import html2canvas from "html2canvas";
-import DropFile from "./DropFile.vue";
+import StampDropFile from "./StampDropFile.vue";
 import SignaturePad from "@/components/SignaturePad";
 
 export default {
   components: {
-    DropFile,
+    StampDropFile,
     SignaturePad,
   },
   mounted() {
@@ -265,6 +265,9 @@ export default {
 .radio-input {
   width: 30px !important ;
 }
+.radio-input:focus {
+  outline: 2px solid #0000ff;
+}
 .reset-draw {
   position: absolute;
   top: 20px;
@@ -318,6 +321,9 @@ canvas {
 .tab button:hover {
   color: red;
 }
+.tab button:focus {
+  outline: 2px solid #0000ff;
+}
 input[type="text"] {
   border: 1px solid !important;
 }
@@ -336,9 +342,25 @@ input[type="text"] {
   height: 300px;
   text-align: center;
 }
+canvas {
+  margin-bottom: 0;
+  background-color: #f5f5fa;
+  border: none;
+  box-shadow: none;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .tab { width: 12%; height: auto; }
+  .tabcontent { width: 88%; height: auto; }
+  .reset-draw {
+    right: 16px;
+  }
+}
 .color-panel {
   display: flex;
   margin-top: 10px;
+  flex-wrap: wrap;
 }
 .color-tool {
   width: 25px;
@@ -346,5 +368,65 @@ input[type="text"] {
   border-radius: 50%;
   margin-left: 10px;
   cursor: pointer;
+}
+.color-tool:focus { outline: 2px solid #0000ff; }
+
+@media (max-width: 640px) {
+  .tab {
+    width: 15%;
+  }
+  
+  .tabcontent {
+    width: 85%;
+    padding: 8px;
+  }
+  
+  .sign-option {
+    padding: 12px 0px 10px 8px;
+  }
+  
+  .name-initial {
+    max-height: 180px;
+  }
+  
+  .tab button {
+    padding: 18px 12px;
+  }
+  
+  .reset-draw {
+    right: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab {
+    width: 18%;
+  }
+  
+  .tabcontent {
+    width: 82%;
+    padding: 6px;
+  }
+  
+  .sign-option label {
+    font-size: 18px !important;
+  }
+  
+  .name-initial {
+    max-height: 150px;
+  }
+  
+  .tab button {
+    padding: 15px 10px;
+  }
+  
+  .reset-draw {
+    right: 10px;
+    top: 15px;
+  }
+  
+  canvas {
+    max-width: 100%;
+  }
 }
 </style>

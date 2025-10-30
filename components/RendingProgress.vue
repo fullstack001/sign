@@ -62,10 +62,69 @@ export default {
   font-size: 25px;
   font-weight: 500;
 }
-@media (max-width: 640px) {
+
+@media (max-width: 1024px) {
+  .shell {
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+  .process_title {
+    font-size: 28px;
+    margin-top: 60px;
+  }
+  .progress-des {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .shell {
+    width: 100%;
+  }
+  .process_title {
+    font-size: 24px;
+    margin-top: 40px;
+  }
   .progress-des {
     font-size: 20px;
+    padding: 0 20px;
+  }
+  .spinner {
+    width: 80px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .progress-des {
+    font-size: 18px;
     font-weight: 500;
+  }
+  .process_title {
+    font-size: 22px;
+    margin-top: 30px;
+  }
+  .spinner {
+    width: 60px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .process_title {
+    font-size: 18px;
+    margin: 15px;
+    margin-top: 20px;
+  }
+  .progress-des {
+    font-size: 16px;
+    padding: 0 15px;
+  }
+  .spinner {
+    width: 50px !important;
+  }
+  .progress-logo {
+    width: 150px !important;
+    margin-top: 20px;
   }
 }
 </style>

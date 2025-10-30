@@ -64,9 +64,10 @@ export default {
   margin-top: 80px;
 }
 
-.file_name {
+.file-name {
   font-size: 20px;
   font-weight: 500;
+  padding: 0 20px;
 }
 .progress-des {
   font-size: 43px;
@@ -77,10 +78,83 @@ export default {
   font-size: 25px;
   font-weight: 500;
 }
+
+@media (max-width: 1024px) {
+  .shell {
+    width: 80%;
+  }
+  .process_title {
+    font-size: 28px;
+    margin-top: 60px;
+  }
+  .progress-des {
+    font-size: 36px;
+  }
+  .uploaded {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .shell {
+    width: 85%;
+  }
+  .process_title {
+    font-size: 24px;
+    margin-top: 40px;
+  }
+  .progress-des {
+    font-size: 32px;
+  }
+  .uploaded {
+    font-size: 20px;
+  }
+  .file-name {
+    font-size: 18px;
+  }
+  .progress-logo {
+    width: 150px !important;
+  }
+}
+
 @media (max-width: 640px) {
   .shell {
     width: 90%;
     margin: auto;
+  }
+  .process_title {
+    font-size: 22px;
+    margin-top: 30px;
+  }
+  .progress-des {
+    font-size: 28px;
+  }
+  .uploaded {
+    font-size: 18px;
+  }
+  .file-name {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .process_title {
+    font-size: 18px;
+    margin: 15px;
+    margin-top: 20px;
+  }
+  .progress-des {
+    font-size: 24px;
+  }
+  .uploaded {
+    font-size: 16px;
+  }
+  .file-name {
+    font-size: 14px;
+  }
+  .progress-logo {
+    width: 120px !important;
+    margin-top: 20px;
   }
 }
 </style>

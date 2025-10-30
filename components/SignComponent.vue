@@ -14,7 +14,11 @@
         v-if="!rendering"
       />
       <div class="sign-content" v-if="imageItems" v-show="!rendering">
-        <div id="pdf-preview-list" ref="list_scrollContainer" v-show="showThumbnails">
+        <div
+          id="pdf-preview-list"
+          ref="list_scrollContainer"
+          v-show="showThumbnails"
+        >
           <div
             v-for="(imageItem, index) in imageItems"
             :key="index"
@@ -74,7 +78,9 @@
             <span
               class="mt-3 mb-3 fs-4 add_item"
               v-bind:style="
-                sign_obj && sign_obj.sign ? 'display: none;' : 'display: block; '
+                sign_obj && sign_obj.sign
+                  ? 'display: none;'
+                  : 'display: block; '
               "
               >Signature</span
             >
@@ -106,7 +112,9 @@
             <span
               class="mt-3 mb-3 fs-4 add_item"
               v-bind:style="
-                sign_obj && sign_obj.init ? 'display: none;' : 'display: block; '
+                sign_obj && sign_obj.init
+                  ? 'display: none;'
+                  : 'display: block; '
               "
               >Init</span
             >
@@ -189,7 +197,8 @@
         <div class="sign_item p-1" draggable="true">
           <Drag />
           <SignNormalIcon />
-          <div class="sign_draggable_prev"
+          <div
+            class="sign_draggable_prev"
             @mouseover="show_img = 'text'"
             @mouseleave="show_img = null"
           >
@@ -240,14 +249,18 @@
               class="my-2 add_item"
               :src="sign_obj && sign_obj.stamp"
               v-bind:style="
-                sign_obj && sign_obj.stamp ? 'display: block;' : 'display: none;'
+                sign_obj && sign_obj.stamp
+                  ? 'display: block;'
+                  : 'display: none;'
               "
               alt="Stamp"
             />
             <span
               class="mt-3 mb-3 fs-4 add_item"
               v-bind:style="
-                sign_obj && sign_obj.stamp ? 'display: none;' : 'display: block; '
+                sign_obj && sign_obj.stamp
+                  ? 'display: none;'
+                  : 'display: block; '
               "
               >Stamp</span
             >
@@ -476,7 +489,7 @@ export default {
     async get_objects() {
       const images = await this.pdf.getObjectCounter(
         this.canvases,
-        this.imageItems
+        this.imageItems,
       );
       this.set_counts(images);
     },
@@ -556,6 +569,8 @@ img {
 }
 .thumbnail-img {
   height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 
 .pdf-preview-item {
@@ -581,11 +596,19 @@ img {
   margin-bottom: 20px;
   box-shadow: 0px 3px 3px 0px rgb(110, 110, 54);
 }
+.pdf-edit-item-container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
 .sign-container {
   display: flex;
+  flex-wrap: wrap;
 }
 .sign-edit {
   width: 79%;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .sign-content {
   display: flex;
@@ -600,17 +623,29 @@ img {
   padding-top: 50px;
   height: 84vh;
 }
+#pdf-preview-list::-webkit-scrollbar,
+#pdf-edit-list::-webkit-scrollbar,
+.sign_sidebar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+#pdf-preview-list::-webkit-scrollbar-thumb,
+#pdf-edit-list::-webkit-scrollbar-thumb,
+.sign_sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
 #pdf-edit-list {
   min-height: 84vh;
   max-height: 84vh;
   width: 100%;
   overflow-y: auto;
+  overflow-x: auto;
   padding-top: 50px;
 }
 .sign_sidebar {
   min-width: 400px;
   max-width: 21%;
-  height: 89vh;
   overflow-y: auto;
   background-color: #fff;
   padding-top: 30px;
@@ -628,6 +663,8 @@ img {
   padding: 15px 40px;
   font-weight: 600;
   cursor: pointer;
+  width: calc(100% - 28px);
+  margin: 0 14px;
 }
 .sign_counters {
   background-color: #0000ff;
@@ -635,6 +672,13 @@ img {
   padding-left: 9px;
   padding-right: 9px;
   color: white;
+}
+.sign_btn:hover {
+  filter: brightness(1.1);
+}
+.sign_btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 .sign_item {
   position: relative;
@@ -648,6 +692,9 @@ img {
   background-color: #f4f5f9;
   margin-bottom: 10px;
   min-height: 70px;
+}
+.sign_item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
 }
 
 .sign_draggable_icon {
@@ -677,6 +724,10 @@ img {
   align-items: center;
   margin-right: auto;
   padding: 12px;
+}
+.sign_draggable_text:focus,
+.sign_draggable_text:hover {
+  text-decoration: underline;
 }
 
 .sign_draggable_prev {
@@ -716,27 +767,110 @@ img {
   font-weight: 600;
   margin-bottom: 10px;
   border-bottom: 1px solid #ccc;
-  padding: 20px 0 10px 0;
+  padding: 20px 14px 10px 14px;
   font-size: 26px;
 }
+
+/* Tablet Responsive */
 @media (max-width: 1492px) {
   #pdf-preview-list {
     display: none;
   }
+  .sign-edit {
+    width: 60%;
+  }
+  .sign_sidebar {
+    max-width: 40%;
+  }
 }
 
-/* Hide left sidebar on mobile by default */
+@media (max-width: 1024px) {
+  .sign-edit {
+    width: 100%;
+    order: 1;
+  }
+  .sign_sidebar {
+    width: 100%;
+    max-width: 100%;
+    order: 2;
+    border-left: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 16px;
+  }
+  #pdf-edit-list {
+    width: 100%;
+  }
+  .sidebar_title {
+    font-size: 22px;
+    padding: 16px 14px 8px 14px;
+  }
+  .sign_btn {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
+}
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
   #pdf-preview-list {
     display: none;
   }
-  
+
+  .sign-edit {
+    width: 100%;
+  }
+
   #pdf-edit-list {
     width: 100%;
+    padding-top: 70px;
+  }
+
+  .sign_sidebar {
+    min-width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 12px;
+  }
+
+  .sidebar_title {
+    font-size: 20px;
+    padding: 12px 0 8px 0;
+  }
+
+  .sign_btn {
+    font-size: 18px;
+    padding: 12px 24px;
+    margin: 0 12px;
+  }
+
+  .sign_label {
+    font-size: 18px;
+  }
+
+  .sign_item {
+    min-height: 60px;
+    margin-bottom: 8px;
+  }
+
+  .furniture {
+    margin: 12px;
+  }
+
+  .sign_draggable_text {
+    font-size: 7px;
+    left: 45px;
+    padding: 8px;
+  }
+
+  .sign_draggable_icon {
+    width: 25px;
+    height: 25px;
   }
 }
 
-/* Show left sidebar when thumbnails are toggled on mobile */
+/* Show thumbnails as overlay on mobile */
 @media (max-width: 768px) {
   .show-thumbnails #pdf-preview-list {
     display: grid;
@@ -745,13 +879,68 @@ img {
     left: 0;
     z-index: 1000;
     height: 100vh;
-    width: 200px;
+    width: 180px;
     background-color: #fff;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    padding-top: 60px;
   }
-  
+
   .show-thumbnails #pdf-edit-list {
-    margin-left: 200px;
+    margin-left: 0;
+  }
+
+  .pdf-preview-item {
+    width: 80px;
+    height: 110px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 640px) {
+  .sidebar_title {
+    font-size: 18px;
+  }
+
+  .sign_btn {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .sign_label {
+    font-size: 16px;
+  }
+
+  .furniture {
+    margin: 8px;
+  }
+
+  .sign_item {
+    min-height: 55px;
+  }
+
+  .show-thumbnails #pdf-preview-list {
+    width: 150px;
+  }
+
+  .pdf-preview-item {
+    width: 70px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar_title {
+    font-size: 16px;
+  }
+
+  .sign_btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .sign_draggable_text {
+    font-size: 6px;
+    left: 40px;
   }
 }
 </style>

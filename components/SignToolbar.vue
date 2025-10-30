@@ -1,43 +1,43 @@
 <template>
-  <div class="toolbar">
+  <div class="toolbar" role="toolbar" aria-label="Sign tools">
     <!-- Thumbnails Tool -->
     <div class="tool">
-      <div class="modern-tool-item" :class="{ active: showThumbnails }" @click="toggleThumbnails">
+      <button class="modern-tool-item"
+              :class="{ active: showThumbnails }"
+              @click="toggleThumbnails"
+              type="button"
+              aria-pressed="showThumbnails"
+              aria-label="Toggle thumbnails">
         <div class="modern-tool-icon">
           <i class="fa-solid fa-th-large"></i>
         </div>
         <div class="modern-tool-label">Thumbnails</div>
-      </div>
+      </button>
     </div>
 
     <div class="stepper">
-      <div class="arrow">
-        <i
-          class="fa-solid fa-chevron-up"
-          style="font-size: medium"
-          @click="$emit('set_page', currentPage == 1 ? 1 : currentPage - 1)"
-        ></i>
-      </div>
-      <div class="arrow">
-        <i
-          class="fa-solid fa-chevron-down"
-          style="font-size: medium"
-          @click="
-            () => {
-              let newPage =
-                currentPage == pages ? currentPage : currentPage + 1;
-              $emit('set_page', newPage);
-            }
-          "
-        ></i>
-      </div>
-      <div class="info">
+      <button class="arrow"
+              type="button"
+              :disabled="currentPage == 1"
+              aria-label="Previous page"
+              @click="$emit('set_page', currentPage == 1 ? 1 : currentPage - 1)">
+        <i class="fa-solid fa-chevron-up"></i>
+      </button>
+      <button class="arrow"
+              type="button"
+              :disabled="currentPage == pages"
+              aria-label="Next page"
+              @click="() => { let newPage = currentPage == pages ? currentPage : currentPage + 1; $emit('set_page', newPage); }">
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+      <div class="info" aria-live="polite">
         <input
           type="number"
           :max="pages"
           :min="1"
-          style="width: 40px; height: 24px; margin-right: 3px"
           v-model="currentPage"
+          class="page-input"
+          aria-label="Current page"
           @change="() => $emit('set_page', currentPage * 1)"
         />
         / {{ pages }}
@@ -70,6 +70,16 @@ export default {
 <style scoped>
 @import "@/assets/css/toolbar.css";
 
+/* Toolbar container improvements */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+}
+
 /* Modern Tool Item Styles */
 .modern-tool-item {
   display: flex;
@@ -83,6 +93,8 @@ export default {
   transition: all 0.2s ease;
   background-color: #f8f9fa;
   border: 2px solid transparent;
+  border: 1px solid #e6e8eb;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .modern-tool-item:hover {
@@ -94,6 +106,11 @@ export default {
   background-color: #0000ff;
   border-color: #0000ff;
   color: white;
+}
+
+.modern-tool-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 0, 255, 0.2);
 }
 
 .modern-tool-icon {
@@ -124,8 +141,44 @@ export default {
   color: white;
 }
 
+/* Stepper (pager) */
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.arrow {
+  border: 1px solid #e6e8eb;
+  background: #f8f9fa;
+  color: #222;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.arrow:hover:not([disabled]) { background: #e9ecef; }
+.arrow:active:not([disabled]) { transform: translateY(1px); }
+.arrow[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.info { color: #444; font-size: 13px; }
+.page-input {
+  width: 48px;
+  height: 28px;
+  padding: 2px 6px;
+  border: 1px solid #e6e8eb;
+  border-radius: 6px;
+  margin-right: 6px;
+}
+.page-input:focus { outline: none; border-color: #0000ff; box-shadow: 0 0 0 2px rgba(0,0,255,0.15); }
+
 /* Responsive Design */
 @media (max-width: 768px) {
+  .toolbar { gap: 8px; padding: 6px 8px; }
   .modern-tool-item {
     min-width: 50px;
     padding: 6px 3px;
@@ -140,9 +193,13 @@ export default {
   .modern-tool-label {
     font-size: 10px;
   }
+  .stepper { gap: 4px; }
+  .arrow { width: 26px; height: 26px; }
+  .page-input { width: 44px; height: 26px; }
 }
 
 @media (max-width: 640px) {
+  .toolbar { gap: 6px; }
   .modern-tool-item {
     min-width: 45px;
     padding: 4px 2px;
@@ -157,6 +214,7 @@ export default {
   .modern-tool-label {
     font-size: 9px;
   }
+  .page-input { width: 40px; }
 }
 
 @media (max-width: 480px) {
@@ -174,5 +232,6 @@ export default {
   .modern-tool-label {
     display: none;
   }
+  .stepper { margin-left: 0; }
 }
 </style>

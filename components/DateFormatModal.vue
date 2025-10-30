@@ -69,4 +69,50 @@ input[type="radio"] {
 .radio-wraper {
   display: grid;
 }
+
+@media (max-width: 1024px) {
+  .modal-content {
+    min-width: 600px;
+    min-height: 500px;
+  }
+  .date_option label {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    min-width: 90%;
+    min-height: 400px;
+  }
+  .date_option label {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-content {
+    min-width: 95%;
+    min-height: 350px;
+  }
+  .date_option label {
+    font-size: 18px;
+  }
+  input[type="radio"] {
+    width: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    min-width: 100%;
+    min-height: 300px;
+  }
+  .date_option label {
+    font-size: 16px;
+  }
+  input[type="radio"] {
+    width: 16px;
+  }
+}
 </style>

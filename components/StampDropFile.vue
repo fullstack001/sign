@@ -118,6 +118,15 @@ export default {
   padding: 30px;
   position: relative;
 }
+.stamp-dropzone-container {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.stamp-dropzone-container:hover {
+  border-color: #0000ff;
+  background-color: #fafcff;
+}
 .stamp-remove-btn {
   position: absolute;
   right: 30px;
@@ -135,5 +144,77 @@ export default {
   position: absolute;
   bottom: 80px;
   right: 328px;
+}
+@media (max-width: 1024px) {
+  .stamp-area {
+    margin: 20px;
+  }
+  .file-label {
+    font-size: 18px;
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stamp-area { 
+    margin: 12px; 
+  }
+  .file-label { 
+    margin-top: 24px; 
+    font-size: 16px; 
+  }
+  .stamp-remove-btn { 
+    right: 16px; 
+    top: 16px; 
+  }
+  .stamp-preview-container { 
+    height: auto; 
+  }
+  .stamp-preview-img { 
+    position: static; 
+    max-width: 100%; 
+  }
+  .stamp-dropzone-container {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .stamp-area {
+    margin: 8px;
+  }
+  .file-label {
+    font-size: 14px;
+    margin-top: 20px;
+  }
+  .stamp-dropzone-container {
+    padding: 15px;
+  }
+  .stamp-remove-btn {
+    right: 12px;
+    top: 12px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stamp-area {
+    margin: 6px;
+  }
+  .file-label {
+    font-size: 13px;
+    margin-top: 15px;
+  }
+  .stamp-dropzone-container {
+    padding: 12px;
+  }
+  .stamp-remove-btn {
+    right: 10px;
+    top: 10px;
+    font-size: 14px;
+  }
+  .stamp-preview-container {
+    padding: 10px;
+  }
 }
 </style>

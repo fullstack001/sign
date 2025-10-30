@@ -86,6 +86,7 @@ export default {
   right: 0;
   z-index: 998;
   background-color: rgba(00, 00, 00, 0.48);
+  padding: 20px;
 }
 
 .modal-content {
@@ -99,6 +100,9 @@ export default {
   border-radius: 8px;
   z-index: 1000;
   overflow: hidden;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
 
   @media screen and (min-width: 900px) {
     min-width: 900px;
@@ -134,5 +138,93 @@ export default {
 a.another-modal {
   color: #000;
   border-bottom: 1px solid #000;
+}
+
+@media (max-width: 1024px) {
+  .modal__wrapper {
+    padding: 15px;
+  }
+  
+  .modal-header span {
+    font-size: 22px;
+  }
+  
+  .apply-btn {
+    font-size: 15px;
+    padding: 6px 18px;
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal__wrapper {
+    padding: 10px;
+  }
+  
+  .modal-content {
+    max-height: 85vh;
+    padding: 15px;
+  }
+  
+  .modal-header span {
+    font-size: 20px;
+  }
+  
+  .apply-btn {
+    font-size: 14px;
+    padding: 6px 16px;
+  }
+  
+  .modal-footer {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal__wrapper {
+    padding: 5px;
+  }
+  
+  .modal-content {
+    max-height: 95vh;
+    padding: 12px;
+  }
+  
+  .modal-header span {
+    font-size: 18px;
+  }
+  
+  .apply-btn {
+    font-size: 14px;
+    padding: 6px 14px;
+    min-height: 38px;
+  }
+  
+  .modal-footer {
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal__wrapper {
+    padding: 0;
+    align-items: flex-start;
+  }
+  
+  .modal-content {
+    border-radius: 0;
+    max-height: 100vh;
+    padding: 10px;
+  }
+  
+  .modal-header span {
+    font-size: 16px;
+  }
+  
+  .apply-btn {
+    font-size: 13px;
+    padding: 5px 12px;
+    min-height: 36px;
+  }
 }
 </style>

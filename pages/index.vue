@@ -1,238 +1,551 @@
 <template>
-  <div>
-    <div class="tools">
-      <!-- section 1 -->
-      <h1>Edit and Sign PDFs with ease</h1>
-      <h2>Add text, shapes, images, and signatures to your PDF documents.</h2>
-      <div class="tools_container">
-        <div
-          v-for="(item, index) in features"
-          :key="index"
-          class="tools__item"
-        >
-          <feature-title :item="{ item }"> </feature-title>
-        </div>
-      </div>
-      <!-- section 1 -->
+  <div class="main">
+    <Processing :progress="'Loading file...'" v-if="page_load == 'loading'" />
+    <Processing :progress="'Signing'" v-if="page_load == 'processing'" />
+    <Uploading
+      :progress="progress"
+      :number="1"
+      :total="1"
+      :size="size"
+      :file_name="'pdfden_signed.pdf'"
+      v-if="page_load == 'uploading'"
+    />
+    <div v-if="file && page_load == 'default'">
+      <SignComponent
+        :pdfUrl="getURL(file)"
+        :get_pdf="get_result"
+        :currentPage="currentPageNum"
+        :totalPageNum="totalPageNum"
+        @upload="upload_png"
+        :sign_obj="sign_obj"
+        @editSign="modalValidate = true"
+      />
+    </div>
+    <div v-if="!file && page_load == 'default'" class="error-message">
+      <h1>No file found</h1>
+      <p>Please provide a valid processingId in the URL</p>
     </div>
 
+    <SignatureModal
+      v-if="modalValidate"
+      :nameProps="sign_name"
+      @close="set_sign_items"
+    />
   </div>
 </template>
 
 <script>
-import FeatureTitle from "@/components/FeatureTitle.vue";
-import { feature_names } from "../services/feature_name";
-
+import generateURL from "@/services/generateURL";
+import SignatureModal from "@/components/SignatureModal.vue";
+import SignComponent from "@/components/SignComponent.vue";
+import addImagesToPDF1 from "@/services/add_img_to_pdf1";
+import Processing from "@/components/Processing.vue";
+import Uploading from "@/components/Uploading.vue";
+import getPageNumber from "@/services/getPageNumber";
 export default {
   head() {
     return {
-      title: "Edit and Sign PDF Online | Free PDF Editor – PDFden.com",
-      link: [{ rel: "canonical", href: "https://www.pdfden.com/" }],
+      title: "Sign PDF – Securely Sign PDF Files for Free",
+      link: [{ rel: "canonical", href: "https://www.pdfden.com/sign-pdf" }],
       script: [
         {
-          type: 'application/ld+json',
+          type: "application/ld+json",
           json: {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "PDFden",
-            "alternateName": "pdfden.com",
-            "url": "https://pdfden.com/",
-            "logo": "https://pdfden.com/_nuxt/img/vue-logo.fd7474e.png",
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "contactType": "customer service",
-              "areaServed": "Global",
-              "availableLanguage": "Global"
-            }
-          }
-        }
+            "@context": "https://schema.org/",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "PDFden",
+                item: "https://pdfden.com/",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Sign PDF file",
+                item: "https://pdfden.com/sign-pdf",
+              },
+            ],
+          },
+        },
       ],
-
       meta: [
         {
-          vmid: "all_keys",
           name: "Keywords",
-          content: "PDF Editor, PDF Signer, Edit PDF Online, Sign PDF Online",
+          content:
+            "Sign PDF, digital signature, sign PDF online, electronic signature, PDF signing tool, e-signature, online signature, sign PDF documents, secure PDF ",
         },
         {
-          vmid: "all_description",
           name: "description",
           content:
-            "Edit and sign your PDFs online with PDFden. Add text, shapes, images, and signatures to your PDF documents with ease. Free PDF editor and signing tool.",
+            "Sign your PDF documents quickly and securely with our Online PDF Signer tool. Add digital signatures to your files with ease for free and no software required.",
         },
         {
-          vmid: "all_facebook_description",
           property: "og:description",
           content:
-            "Edit and sign your PDFs online with PDFden. Add text, shapes, images, and signatures to your PDF documents with ease. Free PDF editor and signing tool.",
+            "Sign your PDF documents quickly and securely with our Online PDF Signer tool. Add digital signatures to your files with ease for free and no software required.",
         },
         {
-          vmid: "all_title",
-          property: "title",
-          content: "Edit and Sign PDF Online | Free PDF Editor – PDFden.com",
-        },
-        {
-          vmid: "all_facebook_title",
           property: "og:title",
-          content: "Edit and Sign PDF Online | Free PDF Editor – PDFden.com",
+          content: "Sign PDF – Securely Sign PDF Files for Free",
         },
         {
-          vmid: "all_image",
+          vmid: "sign_image",
           property: "image",
-          content: "https://pdfden.com/main.png",
+          content: "https://pdfden.com/signpdf.png",
         },
         {
-          vmid: "all_facebook_image",
+          vmid: "sign_facebook_image",
           property: "og:image",
-          content: "https://pdfden.com/main.png",
+          content: "https://pdfden.com/signpdf.png",
         },
         {
-          vmid: "all_twitter_image",
+          vmid: "sign_twitter_image",
           property: "twitter:image",
-          content: "https://pdfden.com/main.png",
+          content: "https://pdfden.com/signpdf.png",
         },
       ],
     };
   },
   components: {
-    FeatureTitle,
+    SignComponent,
+    SignatureModal,
+    Processing,
+    Uploading,
   },
   data() {
     return {
-      features: feature_names,
+      file: null,
+      second: false,
+      modalValidate: false,
+      currentPageImage: null,
+      currentPageNum: 0,
+      totalPageNum: 0,
+      get_result: false,
+      sign_obj: null,
+      sign_name: null,
+      page_load: "loading",
+      rendering_page: null,
+      progress: 0,
+      size: 0,
+      intervalID: null,
+      processingId: null,
     };
   },
-  mounted() {},
+  async mounted() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+    await this.loadFileFromUrl();
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+
   methods: {
+    handleResize() {
+      // Mobile responsive design - no redirect needed
+      // The page will now work on all screen sizes
+    },
+    async loadFileFromUrl() {
+      try {
+        this.processingId = this.$route.query.file;
+        if (!this.processingId) {
+          // No processingId provided; fall back to default UI
+          this.page_load = "default";
+          return;
+        }
+        // Fetch PDF blob by processingId
+        const response = await this.$axios.get(
+          `https://api.pdfezy.com/api/pdf/temp-file/${this.processingId}`,
+          {
+            responseType: "blob",
+          },
+        );
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const fetchedFile = new File([blob], `file_${this.processingId}.pdf`, {
+          type: "application/pdf",
+        });
+        // Derive page count and set state
+        this.totalPageNum = await getPageNumber(fetchedFile);
+        this.file = fetchedFile;
+        this.page_load = "default";
+      } catch (error) {
+        console.error("Error loading file (sign):", error);
+        this.page_load = "default";
+        this.$swal(
+          "Error!",
+          "Failed to load file. Please check the processingId.",
+          "error",
+        );
+      }
+    },
+    set_sign_items(data) {
+      this.modalValidate = false;
+      this.sign_obj = data;
+      this.sign_name = data.name_text;
+    },
+
+    getURL(file) {
+      const fileSrc = generateURL(file);
+      return fileSrc;
+    },
+
+    async upload_png(data) {
+      console.log(data);
+      this.page_load = "processing";
+      let added = data[0];
+      let matched = data[1];
+      const pdf = await addImagesToPDF1(this.getURL(this.file), added, matched);
+      await this.upload_pdf(pdf);
+
+      this.get_result = false;
+    },
+    upload_pdf(pdf) {
+      const formData = new FormData();
+      // Create filename with original name + timestamp
+      const originalName = this.file.name.replace(".pdf", "");
+      const timestamp = Date.now();
+      const newFilename = `${originalName}_${timestamp}.pdf`;
+      const fileWithNewName = new File([pdf], newFilename, {
+        type: "application/pdf",
+      });
+
+      formData.append("pdf", fileWithNewName);
+      if (this.processingId) {
+        formData.append("processingId", this.processingId);
+      }
+      this.page_load = "uploading";
+      this.$axios
+        .post(
+          this.processingId
+            ? "/pdf/pdf_upload_with_processingId"
+            : "/pdf/pdf_upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            onUploadProgress: function (progressEvent) {
+              this.progress = parseInt(
+                Math.round((progressEvent.loaded / progressEvent.total) * 100),
+              );
+              this.size = progressEvent.total;
+            }.bind(this),
+          },
+        )
+        .then((response) => {
+          if (this.processingId) {
+            // Redirect to success page on a different domain with processingId
+            window.location.href = `http://localhost:3065/en/success-sign/?file=${this.processingId}`;
+            return;
+          }
+          const obj = {
+            id: response.data,
+            button_title: "Successfully Signed",
+            dis_text: "PDF has been Signed!",
+            down_name: `${this.file.name.split(".")[0]}_signed.pdf`,
+            file_type: "application/pdf",
+            before: "signpdf",
+          };
+          const encrypted = this.$crypto.AES.encrypt(
+            JSON.stringify(obj),
+            "mySecretKey123",
+          ).toString();
+          this.$router.push({
+            path: "download",
+            query: {
+              param: encrypted,
+            },
+          });
+        })
+        .catch((e) => {
+          this.page_load = "default";
+          this.$swal("Server Error!", "Please check your Network.", "Warning");
+        });
+    },
   },
 };
 </script>
 
 <style scoped>
-
-
-.tools h1,
-.tools h2 {
+.error-message {
   text-align: center;
-  color: #000000;
-  font-weight: bold !important;
-  font-family: "Montserrat", sans-serif !important;
+  padding: 50px 20px;
+  color: #666;
 }
-.tools h2 {
-  margin-top: 0 !important;
-  font-size: 30px;
+.error-message h1 {
+  font-size: 28px;
+  margin-bottom: 12px;
+  color: #333;
 }
-
-h1 {
-  padding-top: 30px;
-  font-size: 42px;
-  line-height: 52px;
-  color: #000000;
+.error-message p {
+  font-size: 16px;
+}
+.main {
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  background-color: #eee !important;
 }
 
-h2 {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-
-.tools {
+.file__btn {
+  padding: 3px;
+  width: 24px;
+  height: 24px;
+  -ms-flex: 0 0 24px;
+  flex: 0 0 24px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.1);
+  background: #0000ff;
+  margin-left: 4px;
+  z-index: 1030;
+  border-radius: 100%;
+  cursor: pointer;
   display: -ms-flexbox;
-  display: block;
+  display: flex;
   -ms-flex-align: center;
   align-items: center;
   -ms-flex-pack: center;
   justify-content: center;
-  position: relative;
-  margin: auto;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  padding: 60px 20px;
-  background-color: #f8f9fa;
 }
 
-.tools_container {
+.sidebar-active .tool__sidebar {
+  -ms-flex-preferred-size: 440px;
+  flex-basis: 440px;
   display: -ms-flexbox;
   display: flex;
-  width: 100%;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 0 0 120px;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
-  justify-content: center;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
-.tools__item {
-  background: #fff;
-  flex-basis: calc(50% - 30px);
-  border: 1px solid #f5f5fa;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  border-radius: 4px;
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
-  margin-left: 15px;
-  margin-right: 15px;
+.tool__sidebar {
+  height: 89vh;
+  background-color: #fff;
+  min-width: 300px;
+}
+
+.draggable-item {
+  margin: 5px;
+  padding: 10px;
+  background-color: lightblue;
+  cursor: move;
+}
+
+.add-more {
+  width: fit-content;
+}
+
+.option__panel__content {
+  margin: 10px;
+  background: #def2ff;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.option__panel__title {
+  font-size: 22px;
+  line-height: 26px;
+  min-height: 48px;
+  padding: 8px 12px;
+  color: #fff;
+  background-color: #0000ff;
+  padding: 15px 40px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.option__panel__title:hover {
+  background-color: #0000ff;
+}
+
+#pickfiles {
+  display: block;
+  background-color: #0000ff;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+h3 {
+  font-weight: 500;
+}
+
+.tool__sidebar__inactive {
+  min-width: 400px;
+  padding: 10px;
+}
+
+.split_option {
   margin-top: 30px;
-  max-width: 350px;
+  margin-bottom: 30px;
+  text-align: left;
 }
 
+.md-radio-label {
+  font-weight: 500 !important;
+}
+/* Responsive Design for Mobile */
+@media (max-width: 1024px) {
+  .main {
+    padding: 10px;
+  }
 
+  .error-message h1 {
+    font-size: 24px;
+  }
 
+  .error-message p {
+    font-size: 14px;
+  }
 
+  .option__panel__title {
+    font-size: 20px;
+    padding: 12px 30px;
+  }
 
-@media (max-width: 1280px) {
-  .tools__item {
-    -ms-flex-positive: 0;
-    flex-grow: 0;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    -ms-flex-preferred-size: calc(50% - 30px);
-    flex-basis: calc(50% - 30px);
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-top: 30px;
+  .option__panel__content {
+    margin: 8px;
+    padding: 8px;
+    font-size: 12px;
   }
 }
 
-@media (max-width: 960px) {
-  .tools__item {
-    -ms-flex-positive: 0;
-    flex-grow: 0;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    -ms-flex-preferred-size: calc(50% - 30px);
-    flex-basis: calc(50% - 30px);
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-top: 30px;
+@media (max-width: 768px) {
+  .main {
+    padding: 5px;
+  }
+
+  .error-message {
+    padding: 30px 20px;
+  }
+
+  .error-message h1 {
+    font-size: 22px;
+  }
+
+  .error-message p {
+    font-size: 14px;
+  }
+
+  .option__panel__title {
+    font-size: 18px;
+    padding: 10px 25px;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .option__panel__content {
+    margin: 5px;
+    padding: 6px;
+    font-size: 11px;
+  }
+
+  .tool__sidebar {
+    min-width: 250px;
   }
 }
 
 @media (max-width: 640px) {
-  .tools {
-    padding: 40px 10px;
+  .main {
+    padding: 5px;
+    width: 100%;
   }
 
-  .tools__item {
-    flex-basis: calc(100% - 20px);
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
-    max-width: none;
+  .error-message {
+    padding: 20px 15px;
   }
 
-  .tools h1 {
-    font-size: 24px !important;
-    font-weight: 600;
-    padding: 10px 0;
+  .error-message h1 {
+    font-size: 20px;
   }
 
-  .tools h2 {
+  .error-message p {
+    font-size: 13px;
+  }
+
+  .option__panel__title {
     font-size: 16px;
-    font-weight: 400;
+    padding: 8px 20px;
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .option__panel__content {
+    margin: 3px;
+    padding: 5px;
+    font-size: 10px;
+  }
+
+  .tool__sidebar {
+    min-width: 200px;
+    height: auto;
+  }
+
+  .tool__sidebar__inactive {
+    min-width: 200px;
+    padding: 5px;
+  }
+
+  #pickfiles {
+    width: 35px;
+    height: 35px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 2px;
+  }
+
+  .error-message {
+    padding: 15px 10px;
+  }
+
+  .error-message h1 {
+    font-size: 18px;
+  }
+
+  .error-message p {
+    font-size: 12px;
+  }
+
+  .option__panel__title {
+    font-size: 14px;
+    padding: 6px 15px;
+  }
+
+  .option__panel__content {
+    margin: 2px;
+    padding: 4px;
+    font-size: 9px;
+  }
+
+  .tool__sidebar {
+    min-width: 150px;
+  }
+
+  .tool__sidebar__inactive {
+    min-width: 150px;
+    padding: 3px;
+  }
+
+  #pickfiles {
+    width: 30px;
+    height: 30px;
+    padding: 6px;
   }
 }
 </style>

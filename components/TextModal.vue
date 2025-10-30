@@ -53,4 +53,51 @@ input {
   padding: 10px;
   border-radius: 5px;
 }
+
+@media (max-width: 1024px) {
+  .modal-content {
+    min-width: 600px;
+    min-height: 220px;
+  }
+  input {
+    font-size: 18px;
+    height: 38px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    min-width: 90%;
+    min-height: 200px;
+  }
+  input {
+    font-size: 16px;
+    height: 36px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-content {
+    min-width: 95%;
+    min-height: 180px;
+  }
+  input {
+    font-size: 16px;
+    height: 34px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    min-width: 100%;
+    min-height: 160px;
+  }
+  input {
+    font-size: 14px;
+    height: 32px;
+    padding: 6px;
+  }
+}
 </style>

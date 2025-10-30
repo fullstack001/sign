@@ -20,10 +20,10 @@ export default {
     ],
     link: [
       { rel: "icon", type: "image/png", href: "/favicon.png" },
-      // {
-      //   rel: "stylesheet",
-      //   href: "//fonts.googleapis.com/icon?family=Material+Icons",
-      // },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Satisfy&family=Shadows+Into+Light&family=Alex+Brush&family=Allura&family=Handlee&family=Kristi&family=La+Belle+Aurore&family=Marck+Script&family=Reenie+Beanie&family=Zeyada&display=swap",
+      },
     ],
   },
   loading: {

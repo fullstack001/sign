@@ -70,5 +70,20 @@ export default {
 <style scoped>
 .sin {
   background-color: #f5f5fa;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .sin {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .sin {
+    max-width: 100%;
+  }
 }
 </style>

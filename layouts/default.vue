@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="isLoading"></div>
-    <div v-else>
+    <div class="layout-content" v-else>
       <nuxt />
     </div>
   </div>
@@ -19,8 +19,7 @@ export default {
         : "en";
     },
   },
-  components: {
-  },
+  components: {},
   beforeDestroy() {
     window.removeEventListener("beforeunload", this.handleBeforeUnload);
   },
@@ -56,6 +55,23 @@ export default {
 html,
 body {
   font-family: "Montserrat", sans-serif !important;
+}
+/* Ensure the Nuxt root fills the viewport height */
+html,
+body,
+#__nuxt,
+#__layout {
+  height: 100%;
+}
+/* Make layout stretch and allow pages to fill remaining space */
+#__layout {
+  display: flex;
+  flex-direction: column;
+}
+#__layout > div {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
 }
 .tab-area .md-tabs-navigation {
   box-shadow: none;
@@ -151,5 +167,45 @@ body {
     color: #333 !important;
     font-size: 14px;
   }
+}
+
+@media (max-width: 768px) {
+  .tab-area .md-button-content .md-tab-label {
+    font-size: 12px;
+  }
+
+  .md-button-content .md-tab-icon {
+    font-size: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .tab-area .md-button-content .md-tab-label {
+    font-size: 11px;
+  }
+
+  .md-button-content .md-tab-icon {
+    font-size: 35px !important;
+    width: 35px !important;
+    height: 35px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab-area .md-button-content .md-tab-label {
+    font-size: 10px;
+  }
+
+  .md-button-content .md-tab-icon {
+    font-size: 30px !important;
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
+.layout-content {
+  flex: 1;
 }
 </style>

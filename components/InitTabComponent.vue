@@ -155,7 +155,11 @@
       </div>
 
       <div id="init_upload" class="tabcontent_init">
-        <DropFile v-if="active_btn == 'init_upload'" :data="'init_img'" />
+        <StampDropFile
+          v-if="active_btn == 'init_upload'"
+          :data="'init_img'"
+          @set_stamp="setUploadImg"
+        />
       </div>
     </div>
   </div>
@@ -163,11 +167,11 @@
 <script>
 import SignaturePad from "@/components/SignaturePad.vue";
 import html2canvas from "html2canvas";
-import DropFile from "./DropFile.vue";
+import StampDropFile from "./StampDropFile.vue";
 
 export default {
   components: {
-    DropFile,
+    StampDropFile,
     SignaturePad,
   },
   props: ["name", "get_init"],
@@ -209,10 +213,11 @@ export default {
       fontColor: "#000",
       init_picked_family: "Satisfy",
       init_png: null,
+      upload_img: null,
     };
   },
   methods: {
-    upload_img(data) {
+    setUploadImg(data) {
       this.upload_img = data;
     },
     openCity(item) {
@@ -234,7 +239,7 @@ export default {
     },
     async convertToPNG() {
       const textContainer = document.getElementById(
-        this.init_picked_family + "init"
+        this.init_picked_family + "init",
       );
       textContainer.style.fontSize = "22px";
       // Use html2canvas to capture the content of the text container
@@ -255,6 +260,9 @@ export default {
 .radio-input {
   width: 30px !important ;
 }
+.radio-input:focus {
+  outline: 2px solid #0000ff;
+}
 .reset-draw {
   position: absolute;
   top: 20px;
@@ -264,11 +272,17 @@ export default {
 .reset-draw:hover {
   color: red;
 }
+@media (max-width: 768px) {
+  .reset-draw {
+    right: 16px;
+  }
+}
 canvas {
   margin-bottom: 0;
   background-color: #f5f5fa;
   border: none;
   box-shadow: none;
+  max-width: 100%;
 }
 .sign-option {
   border: 1px solid;
@@ -288,6 +302,11 @@ canvas {
   background-color: #e8f0fe;
   width: 6%;
   height: 300px;
+}
+@media (max-width: 768px) {
+  .tab {
+    width: 12%;
+  }
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -324,9 +343,16 @@ canvas {
   height: 300px;
   text-align: center;
 }
+@media (max-width: 768px) {
+  .tabcontent_init {
+    width: 88%;
+    height: auto;
+  }
+}
 .color-panel {
   display: flex;
   margin-top: 10px;
+  flex-wrap: wrap;
 }
 .color-tool {
   width: 25px;
@@ -334,5 +360,63 @@ canvas {
   border-radius: 50%;
   margin-left: 10px;
   cursor: pointer;
+}
+.color-tool:focus {
+  outline: 2px solid #0000ff;
+}
+
+@media (max-width: 640px) {
+  .tab {
+    width: 15%;
+  }
+
+  .tabcontent_init {
+    width: 85%;
+    padding: 8px;
+  }
+
+  .sign-option {
+    padding: 10px 0px 8px 8px;
+  }
+
+  .name-initial {
+    max-height: 180px;
+  }
+
+  .tab button {
+    padding: 18px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tab {
+    width: 18%;
+  }
+
+  .tabcontent_init {
+    width: 82%;
+    padding: 6px;
+  }
+
+  .sign-option label {
+    font-size: 18px !important;
+  }
+
+  .name-initial {
+    max-height: 150px;
+  }
+
+  .tab button {
+    padding: 15px 10px;
+  }
+
+  .reset-draw {
+    right: 10px;
+    top: 15px;
+  }
+
+  canvas {
+    max-width: 100%;
+  }
 }
 </style>

@@ -27,7 +27,12 @@
         </div>
       </form>
       <div v-show="get_signature">
-        <img src="@/assets/img/805.gif" class="spinner" width="80px" alt="Spinner" />
+        <img
+          src="@/assets/img/805.gif"
+          class="spinner"
+          width="80px"
+          alt="Spinner"
+        />
       </div>
       <div class="tab-container tabs">
         <div class="tab">
@@ -188,7 +193,7 @@ export default {
 <style lang="scss" scoped>
 .user-icon {
   font-size: 27px;
-  margin-top: 60px;
+  margin-top: 45px;
   margin-right: 11px;
 }
 
@@ -202,6 +207,16 @@ export default {
 }
 .name-input {
   width: 400px;
+}
+.name-input input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.name-input input:focus {
+  outline: none;
+  border-color: #0000ff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 255, 0.1);
 }
 .form-item .errorText {
   display: none;
@@ -231,6 +246,9 @@ input.error {
   height: 304px;
   align-content: center;
   // border: solid 1px;
+}
+.tab-label i {
+  margin-right: 6px;
 }
 .tabs::before,
 .tabs::after {
@@ -279,6 +297,13 @@ input.error {
   text-align: left;
   display: grid;
 }
+.tab-content::-webkit-scrollbar {
+  width: 8px;
+}
+.tab-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
 .tab-switch:checked + .tab-label {
   background: #fff;
   color: #2c3e50;
@@ -301,5 +326,99 @@ input {
   border-radius: 5px;
   border-width: thin;
   border: 1px solid !important;
+}
+.file-label {
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .user-icon {
+    font-size: 24px;
+    margin-top: 35px;
+  }
+  .name-input {
+    width: 100%;
+    max-width: 350px;
+  }
+  .form-item {
+    margin: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-icon {
+    font-size: 22px;
+    margin-top: 30px;
+  }
+  .name-input {
+    width: 100%;
+    max-width: 100%;
+  }
+  .name-initial {
+    flex-direction: column;
+  }
+  .form-item {
+    margin: 12px;
+  }
+  .tabs {
+    height: auto;
+    min-height: 280px;
+  }
+  .tab-label {
+    font-size: 14px;
+    padding: 0 1em;
+    line-height: 2.5em;
+    height: 2.5em;
+  }
+}
+
+@media (max-width: 640px) {
+  .user-icon {
+    font-size: 20px;
+    margin-top: 25px;
+  }
+  .form-item {
+    margin: 10px;
+  }
+  .name-input input {
+    padding: 8px;
+  }
+  .tabs {
+    min-height: 260px;
+  }
+  .tab-label {
+    font-size: 13px;
+    padding: 0 0.8em;
+    line-height: 2.25em;
+    height: 2.25em;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-icon {
+    font-size: 18px;
+    margin-top: 20px;
+    margin-right: 8px;
+  }
+  .form-item {
+    margin: 8px;
+  }
+  .name-input input {
+    padding: 6px;
+    font-size: 14px;
+  }
+  .tabs {
+    min-height: 240px;
+  }
+  .tab-label {
+    font-size: 12px;
+    padding: 0 0.6em;
+    line-height: 2em;
+    height: 2em;
+  }
+  input {
+    padding: 8px;
+    font-size: 14px;
+  }
 }
 </style>
