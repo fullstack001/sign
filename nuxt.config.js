@@ -4,7 +4,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   // mode: 'spa',
   head: {
-    titleTemplate: "%s",
+    titleTemplate: "%s | PDFEzy",
     htmlAttrs: {
       lang: "en",
     },
@@ -13,13 +13,44 @@ export default {
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "format-detection", content: "telephone=no" },
       { name: "robots", content: "index, follow" },
+      {
+        hid: "description",
+        name: "description",
+        content: "Convert, edit, compress, and manage your PDF files online",
+      },
+      { hid: "og:type", property: "og:type", content: "website" },
+      { hid: "og:site_name", property: "og:site_name", content: "PDFEzy" },
+      { hid: "og:title", property: "og:title", content: "PDFEzy - PDF Tools" },
+      {
+        hid: "og:description",
+        property: "og:description",
+        content: "Convert, edit, compress, and manage your PDF files online",
+      },
+      {
+        hid: "twitter:card",
+        name: "twitter:card",
+        content: "summary_large_image",
+      },
+      { hid: "twitter:site", name: "twitter:site", content: "@pdfezy" },
+      {
+        hid: "twitter:title",
+        name: "twitter:title",
+        content: "PDFEzy - PDF Tools",
+      },
+      {
+        hid: "twitter:description",
+        name: "twitter:description",
+        content: "Convert, edit, compress, and manage your PDF files online",
+      },
       // { charset: 'utf-8' },
       // { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' },
       // { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1' },
       // { name: 'description', content: 'PDFden.com - Free Online PDF Tools - Merge, Split, Compress, and More!' }
     ],
     link: [
-      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon.io" },
+      { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon.io" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/favicon.io" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Satisfy&family=Shadows+Into+Light&family=Alex+Brush&family=Allura&family=Handlee&family=Kristi&family=La+Belle+Aurore&family=Marck+Script&family=Reenie+Beanie&family=Zeyada&display=swap",

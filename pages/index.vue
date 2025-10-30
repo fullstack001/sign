@@ -46,7 +46,7 @@ export default {
   head() {
     return {
       title: "Sign PDF – Securely Sign PDF Files for Free",
-      link: [{ rel: "canonical", href: "https://www.pdfden.com/sign-pdf" }],
+      link: [{ rel: "canonical", href: "https://sign.pdfezy.com" }],
       script: [
         {
           type: "application/ld+json",
@@ -77,33 +77,32 @@ export default {
             "Sign PDF, digital signature, sign PDF online, electronic signature, PDF signing tool, e-signature, online signature, sign PDF documents, secure PDF ",
         },
         {
+          hid: "description",
           name: "description",
-          content:
-            "Sign your PDF documents quickly and securely with our Online PDF Signer tool. Add digital signatures to your files with ease for free and no software required.",
+          content: "Convert, edit, compress, and manage your PDF files online",
         },
         {
           property: "og:description",
-          content:
-            "Sign your PDF documents quickly and securely with our Online PDF Signer tool. Add digital signatures to your files with ease for free and no software required.",
+          content: "Convert, edit, compress, and manage your PDF files online",
         },
         {
           property: "og:title",
-          content: "Sign PDF – Securely Sign PDF Files for Free",
+          content: "Sign PDF – Securely Sign PDF Files for Free | PDFEzy",
         },
         {
           vmid: "sign_image",
           property: "image",
-          content: "https://pdfden.com/signpdf.png",
+          content: "https://sign.pdfezy.com/signpdf.png",
         },
         {
           vmid: "sign_facebook_image",
           property: "og:image",
-          content: "https://pdfden.com/signpdf.png",
+          content: "https://sign.pdfezy.com/signpdf.png",
         },
         {
           vmid: "sign_twitter_image",
           property: "twitter:image",
-          content: "https://pdfden.com/signpdf.png",
+          content: "https://sign.pdfezy.com/signpdf.png",
         },
       ],
     };
