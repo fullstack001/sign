@@ -107,11 +107,11 @@ export default {
   },
 
   axios: {
-    baseURL: "https://api.pdfden.com/api",
+    baseURL: "https://api.pdfezy.com/api",
   },
   publicRuntimeConfig: {
     axios: {
-      baseURL: "https://api.pdfden.com/api",
+      baseURL: "https://api.pdfezy.com/api",
     },
   },
   // vuetify: {
